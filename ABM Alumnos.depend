@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1523840686 source:c:\users\nano\desktop\github\abm alumnos\funciones.c
+	<stdio.h>
+	<stdlib.h>
+
+1523839941 source:c:\users\nano\desktop\github\abm alumnos\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1523840225 c:\users\nano\desktop\github\abm alumnos\funciones.h
+
