@@ -35,6 +35,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="funciones.h" />
+		<Unit filename="funciones_arrays.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funciones_arrays.h" />
+		<Unit filename="funciones_generales.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funciones_generales.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

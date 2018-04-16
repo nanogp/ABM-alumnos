@@ -10,3 +10,30 @@
 
 1523840225 c:\users\nano\desktop\github\abm alumnos\funciones.h
 
+1523851270 source:c:\users\nano\desktop\github\abm-alumnos\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones_generales.h"
+	"funciones_arrays.h"
+
+1523851085 c:\users\nano\desktop\github\abm-alumnos\funciones_generales.h
+
+1523851958 c:\users\nano\desktop\github\abm-alumnos\funciones_arrays.h
+
+1523852268 source:c:\users\nano\desktop\github\abm-alumnos\funciones_arrays.c
+	<string.h>
+
+1523851213 source:c:\users\nano\desktop\github\abm-alumnos\funciones_generales.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones_arrays.h"
+
+1523848054 source:c:\users\nano\desktop\github\abm-alumnos\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	"funciones_generales.h"
+
+1523848277 c:\users\nano\desktop\github\abm-alumnos\funciones.h
+

@@ -1,78 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define DEFINIR_MACRO_STRING(nombre_macro) #nombre_macro
-#define LIMPIAR_PANTALLA DEFINIR_MACRO_STRING(cls)
-#define HACER_PAUSA DEFINIR_MACRO_STRING(pause)
-#define LARGO_NOMBRE_MENU 20
-#define LARGO_NOMBRE_ALUMNO 100
+#include <string.h>
+#include "funciones_generales.h"
+#include "funciones_arrays.h"
 
-void ejecutarEnConsola(const char lineaDeComando[])
+#define LARGO_ITEM_MENU 50
+#define NRO_OPCIONES_ALTA 6
+
+void procesarAltas(const int cantElementos,
+                   int legajoAlumnos[],
+                   char nombreAlumnos[][LARGO_NOMBRE_ALUMNO],
+                   int nota1Alumnos[],
+                   int nota2Alumnos[],
+                   float promedioAlumnos[])
 {
-    system(lineaDeComando);
-}
+    const char menuAlta[NRO_OPCIONES_ALTA][LARGO_ITEM_MENU] = {"1. Ingresar legajo",
+                                                               "2. Ingresar nombre alumno",
+                                                               "3. Ingresar primer nota",
+                                                               "4. Ingresar segunda nota",
+                                                               "8. Confirmar ingreso",
+                                                               "9. Cancelar ingreso"};
 
-int buscarEnArrayInt(const int valor, const int array[], const int cantElementos)
-{
-    int retorno = -1;
-    int i;
+    const int codigosAlta[NRO_OPCIONES_ALTA] = {1,2,3,4,8,9};
+    char continuarIngreso = 'S';
+    int opcion;
 
-    for(i=0 ; i<cantElementos ; i++)
-    {
-        if(array[i]==valor)
-        {
-            retorno = i;
-            break;
-        }
-    }
-    return retorno;
-}
-
-void mostrarMenu(const char menu[][LARGO_NOMBRE_MENU], const int cantElementosMenu)
-{
-    int i;
-    for(i=0 ; i<cantElementosMenu; i++)
-    {
-        printf("\n%s", menu[i]);
-    }
-}
-
-int pedirOpcion(const char menu[][LARGO_NOMBRE_MENU], const int opciones[], const int cantElementosMenu)
-{
-    int retorno;
-    int i;
-
-    printf("\nElija un n£mero de opci¢n del men£: ");
-    scanf("%d", &retorno);
-
-    while(buscarEnArrayInt(retorno, opciones, cantElementosMenu) == -1)
+    printf("buscar lugar en array\n");
+    while(continuarIngreso == 'S')
     {
         ejecutarEnConsola(LIMPIAR_PANTALLA);
-        mostrarMenu(menu, cantElementosMenu);
-        //armo lista de opciones en el renglón por si el usuario se equivoca muchas veces
-        //y el menú queda fuera de vista
-        for(i = 0 ; i < cantElementosMenu ; i++)
-        {
-            if(i == 0)
-            {
-                printf("\nOpci¢n %d no v lida.\nElija una opci¢n de men£ de la lista\n(%d", retorno, opciones[i]);
-            }
-            else
-            {
-                if(i < cantElementosMenu-1)
-                {
-                    printf("-%d", opciones[i]);
-                }
-                else
-                {
-                    printf("-%d): ", opciones[i]);
-                }
-            }
-        }//for
-        fflush(stdin);
-        scanf("%d", &retorno);
-    }
+        mostrarMenu(menuAlta, NRO_OPCIONES_ALTA);
+        opcion = pedirOpcion(menuAlta, codigosAlta, NRO_OPCIONES_ALTA);
 
-    return retorno;
+        switch(opcion)
+        {
+            case 1:
+                printf("pedir legajo entero mayor que 0\n");
+                ejecutarEnConsola(HACER_PAUSA);
+                break;
+            case 2:
+                printf("pedir nombre alumno\n");
+                ejecutarEnConsola(HACER_PAUSA);
+                break;
+            case 3:
+                printf("pedir nota1 entre 1 y 10\n");
+                ejecutarEnConsola(HACER_PAUSA);
+                break;
+            case 4:
+                printf("pedir nota2 entre 1 y 10\n");
+                ejecutarEnConsola(HACER_PAUSA);
+                break;
+            case 8:
+                printf("\nSe van a guardar los datos ingresados.");
+                if(pedirConfirmacion("Est  seguro?") == 'S')
+                {
+                    ejecutarEnConsola(HACER_PAUSA);
+                    continuarIngreso = 'N';
+                }
+                break;
+            case 9:
+                continuarIngreso = 'N';
+                break;
+        }//switch
+        continuarIngreso = pedirConfirmacion("Desea continuar dando altas?");
+    }//while
 }
 
 char procesarOpcion(const int opcion,
@@ -87,7 +78,7 @@ char procesarOpcion(const int opcion,
     switch(opcion)
     {
         case 1:
-            printf("ALTA");
+            procesarAltas(cantElementos, legajoAlumnos, nombreAlumnos, nota1Alumnos, nota2Alumnos, promedioAlumnos);
             ejecutarEnConsola(HACER_PAUSA);
             break;
         case 2:
@@ -107,14 +98,71 @@ char procesarOpcion(const int opcion,
     }
     return salirDelPrograma;
 }
-/*
-void procesarAltas(const int cantElementos,
-                   int legajoAlumnos[],
-                   char nombreAlumnos[][LARGO_NOMBRE_ALUMNO],
-                   int nota1Alumnos[],
-                   int nota2Alumnos[],
-                   float promedioAlumnos[])
+
+void ordenarPorPromedio(float array[], const int cant, const char orden[])
 {
-    const char aux[LARGO_NOMBRE_ALUMNO*2];
+    float aux;
+    int i;
+    int j;
+    for(i=0 ; i<cant-1 ; i++)
+    {
+        for(j=i+1 ; j<cant ; j++)
+        {
+            if(strcmp(orden, "mayor")==0)
+            {
+                if(array[i] < array[j])
+                {
+                    aux = array[i];
+                    array[i] = array[j];
+                    array[j] = aux;
+                }
+            }
+            else
+            {
+                if(strcmp(orden, "menor")==0)
+                {
+                    if(array[i] > array[j])
+                    {
+                        aux = array[i];
+                        array[i] = array[j];
+                        array[j] = aux;
+                    }
+                }
+            }
+        }//for j
+    }// for i
 }
-*/
+
+void ordenarPorNombre(char array[][LARGO_NOMBRE_ALUMNO], const int cant, const char orden[])
+{
+    char aux[LARGO_NOMBRE_ALUMNO];
+    int i;
+    int j;
+    for(i=0 ; i<cant-1 ; i++)
+    {
+        for(j=i+1 ; j<cant ; j++)
+        {
+            if(strcmp(orden, "mayor")==0)
+            {
+                if(stricmp(array[i],array[j]) < 0)
+                {
+                    strcpy(aux,array[i]);
+                    strcpy(array[i],array[j]);
+                    strcpy(array[j], aux);
+                }
+            }
+            else
+            {
+                if(strcmp(orden, "menor")==0)
+                {
+                    if(stricmp(array[i],array[j]) > 0)
+                    {
+                        strcpy(aux,array[i]);
+                        strcpy(array[i],array[j]);
+                        strcpy(array[j], aux);
+                    }
+                }
+            }
+        }//for j
+    }// for i
+}
